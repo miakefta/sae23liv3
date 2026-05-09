@@ -4,6 +4,8 @@ Fournit les méthodes utilisées par l'interface en ligne de commande.
 """
 
 from models import Film, Humeur, Genre
+from pathlib import Path
+
 from db import (
     init_db,
     add_humeur,
@@ -30,6 +32,16 @@ class CineMatchService:
     def __init__(self, db_path: str = "cinematch.db", schema_path: str = "schema.sql"):
         self.db_path = db_path
         self.schema_path = schema_path
+        self.ensure_database()
+
+    def ensure_database(self) -> None:
+        """Crée la base SQLite si elle n'existe pas encore.
+
+        Cela évite qu'une première visite du site provoque une erreur SQL
+        lorsque le fichier `cinematch.db` n'a pas encore été généré.
+        """
+        if not Path(self.db_path).exists():
+            init_db(self.db_path, self.schema_path)
 
     def create_database(self) -> None:
         init_db(self.db_path, self.schema_path)

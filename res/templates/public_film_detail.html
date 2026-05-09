@@ -1,0 +1,12 @@
+<%inherit file="base_public.html" />
+
+<section class="panel">
+    <h2>${film.titre}</h2>
+    <p class="muted">${film.annee} • ${film.duree} minutes • Note : ${film.note}/10</p>
+    <p>${film.synopsis}</p>
+    <p>
+        <span class="badge">${humeur.nom if humeur else "Humeur inconnue"}</span>
+        <span class="badge badge-secondary">${genre.nom if genre else "Genre inconnu"}</span>
+    </p>
+    <a class="button button-light" href="/search">Retour à la recherche</a>
+</section>

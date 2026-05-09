@@ -1,0 +1,27 @@
+<%inherit file="base_admin.html" />
+<% genres = context.get("genres", []) %>
+
+<section class="panel center">
+    <h2>Gestion des genres</h2>
+    <p class="muted">Ajoute ou supprime les genres disponibles.</p>
+</section>
+
+<section class="panel">
+    <h3>Ajouter un genre</h3>
+    <form class="form-grid" method="post" action="/add_genre">
+        <div>
+            <label>Nom</label>
+            <input type="text" name="nom" required>
+        </div>
+        <button type="submit">Ajouter</button>
+    </form>
+</section>
+
+<div class="grid">
+% for genre in genres:
+    <div class="card">
+        <h3>${genre.nom}</h3>
+        <a class="button button-danger" href="/delete_genre?genre_id=${genre.id_genre}">Supprimer</a>
+    </div>
+% endfor
+</div>

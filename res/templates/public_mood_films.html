@@ -1,0 +1,24 @@
+<%inherit file="base_public.html" />
+<% films = context.get("films", []) %>
+
+<section class="panel center">
+% if humeur:
+    <h2>Films pour l'humeur : ${humeur.nom}</h2>
+    <p class="muted">${humeur.description}</p>
+% else:
+    <h2>Humeur introuvable</h2>
+    <p class="muted">Cette humeur n'existe pas ou a été supprimée.</p>
+% endif
+</section>
+
+<div class="grid">
+% for film in films:
+    <div class="card">
+        <h3>${film["titre"]}</h3>
+        <p>${film["annee"]} • ${film["genre_nom"]}</p>
+        <p><span class="badge">${film["humeur_nom"]}</span></p>
+        <p>Note : ${film["note"]}/10</p>
+        <a class="button button-light" href="/film_detail?film_id=${film['id_film']}">Détail</a>
+    </div>
+% endfor
+</div>

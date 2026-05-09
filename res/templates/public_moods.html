@@ -1,0 +1,17 @@
+<%inherit file="base_public.html" />
+<% humeurs = context.get("humeurs", []) %>
+
+<section class="panel center">
+    <h2>Choisir une humeur</h2>
+    <p class="muted">Sélectionne ton envie du moment pour découvrir les films associés.</p>
+</section>
+
+<div class="grid">
+% for humeur in humeurs:
+    <div class="card">
+        <h3>${humeur.nom}</h3>
+        <p>${humeur.description}</p>
+        <a class="button button-light" href="/mood?humeur_id=${humeur.id_humeur}">Voir les films</a>
+    </div>
+% endfor
+</div>

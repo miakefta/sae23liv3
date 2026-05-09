@@ -39,12 +39,17 @@ def init_db(db_path: str = DEFAULT_DB_PATH, schema_path: str = DEFAULT_SCHEMA_PA
 def add_humeur(nom: str, description: str, db_path: str = DEFAULT_DB_PATH) -> int:
     conn = get_connection(db_path)
     cursor = conn.cursor()
-    cursor.execute(
-        "INSERT INTO humeur (nom, description) VALUES (?, ?)",
-        (nom, description)
-    )
-    conn.commit()
-    humeur_id = cursor.lastrowid
+    try:
+        cursor.execute(
+            "INSERT INTO humeur (nom, description) VALUES (?, ?)",
+            (nom, description)
+        )
+        conn.commit()
+        humeur_id = cursor.lastrowid
+    except sqlite3.IntegrityError:
+        cursor.execute("SELECT id_humeur FROM humeur WHERE nom = ?", (nom,))
+        row = cursor.fetchone()
+        humeur_id = row["id_humeur"] if row else 0
     conn.close()
     return humeur_id
 
@@ -95,9 +100,14 @@ def delete_humeur(humeur_id: int, db_path: str = DEFAULT_DB_PATH) -> bool:
 def add_genre(nom: str, db_path: str = DEFAULT_DB_PATH) -> int:
     conn = get_connection(db_path)
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO genre (nom) VALUES (?)", (nom,))
-    conn.commit()
-    genre_id = cursor.lastrowid
+    try:
+        cursor.execute("INSERT INTO genre (nom) VALUES (?)", (nom,))
+        conn.commit()
+        genre_id = cursor.lastrowid
+    except sqlite3.IntegrityError:
+        cursor.execute("SELECT id_genre FROM genre WHERE nom = ?", (nom,))
+        row = cursor.fetchone()
+        genre_id = row["id_genre"] if row else 0
     conn.close()
     return genre_id
 

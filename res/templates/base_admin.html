@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - CinéMatch</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+    <h1>Administration CinéMatch</h1>
+    <p>Gestion des films, genres et humeurs</p>
+</header>
+
+<nav>
+    <a href="/">Accueil public</a>
+    <a href="/admin">Dashboard</a>
+    <a href="/admin_films">Films</a>
+    <a href="/admin_humeurs">Humeurs</a>
+    <a href="/admin_genres">Genres</a>
+    <a href="/search">Recherche</a>
+    <a href="/stats">Stats</a>
+</nav>
+
+<main>
+    ${self.body()}
+</main>
+
+<footer>Backoffice CinéMatch</footer>
+</body>
+</html>

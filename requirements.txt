@@ -1,0 +1,2 @@
+CherryPy>=18.10
+Mako>=1.3

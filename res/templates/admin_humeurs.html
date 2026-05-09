@@ -1,0 +1,32 @@
+<%inherit file="base_admin.html" />
+<% humeurs = context.get("humeurs", []) %>
+
+<section class="panel center">
+    <h2>Gestion des humeurs</h2>
+    <p class="muted">Ajoute ou supprime les humeurs utilisées par le site.</p>
+</section>
+
+<section class="panel">
+    <h3>Ajouter une humeur</h3>
+    <form class="form-grid" method="post" action="/add_humeur">
+        <div>
+            <label>Nom</label>
+            <input type="text" name="nom" required>
+        </div>
+        <div class="full">
+            <label>Description</label>
+            <textarea name="description" rows="3" required></textarea>
+        </div>
+        <button type="submit">Ajouter</button>
+    </form>
+</section>
+
+<div class="grid">
+% for humeur in humeurs:
+    <div class="card">
+        <h3>${humeur.nom}</h3>
+        <p>${humeur.description}</p>
+        <a class="button button-danger" href="/delete_humeur?humeur_id=${humeur.id_humeur}">Supprimer</a>
+    </div>
+% endfor
+</div>
