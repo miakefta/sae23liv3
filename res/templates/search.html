@@ -1,0 +1,37 @@
+<%inherit file="base_public.html" />
+<% films = context.get("films", []); titre = context.get("titre", ""); genre = context.get("genre", ""); annee = context.get("annee", "") %>
+
+<section class="panel center">
+    <h2>Recherche de films</h2>
+    <p class="muted">Recherche par titre, genre ou année.</p>
+</section>
+
+<section class="panel">
+    <form class="form-grid" method="get" action="/search">
+        <div>
+            <label>Titre</label>
+            <input type="text" name="titre" value="${titre}" placeholder="Ex : Inception">
+        </div>
+        <div>
+            <label>Genre</label>
+            <input type="text" name="genre" value="${genre}" placeholder="Ex : Action">
+        </div>
+        <div>
+            <label>Année</label>
+            <input type="number" name="annee" value="${annee}" placeholder="Ex : 2010">
+        </div>
+        <button type="submit">Rechercher</button>
+    </form>
+</section>
+
+<div class="grid">
+% for film in films:
+    <div class="card">
+        <h3>${film["titre"]}</h3>
+        <p>${film["annee"]} • ${film["genre_nom"]}</p>
+        <p><span class="badge">${film["humeur_nom"]}</span></p>
+        <p>Note : ${film["note"]}/10</p>
+        <a class="button button-light" href="/film_detail?film_id=${film['id_film']}">Détail</a>
+    </div>
+% endfor
+</div>

@@ -1,0 +1,35 @@
+<%inherit file="base_public.html" />
+<% humeurs = context.get("humeurs", []); films = context.get("films", []) %>
+
+<section class="hero">
+    <h2>Bienvenue sur CinéMatch</h2>
+    <p>Choisis une humeur et trouve rapidement un film adapté à ton envie du moment.</p>
+    <div class="actions">
+        <a class="button" href="/moods">Choisir une humeur</a>
+        <a class="button button-light" href="/search">Rechercher</a>
+    </div>
+</section>
+
+<h3 class="section-title">Humeurs disponibles</h3>
+<div class="grid">
+% for humeur in humeurs:
+    <div class="card">
+        <h3>${humeur.nom}</h3>
+        <p>${humeur.description}</p>
+        <a class="button button-light" href="/mood?humeur_id=${humeur.id_humeur}">Voir les films</a>
+    </div>
+% endfor
+</div>
+
+<h3 class="section-title">Quelques films</h3>
+<div class="grid">
+% for film in films[:5]:
+    <div class="card">
+        <h3>${film["titre"]}</h3>
+        <p>${film["annee"]} • ${film["genre_nom"]}</p>
+        <p><span class="badge">${film["humeur_nom"]}</span></p>
+        <p>Note : ${film["note"]}/10</p>
+        <a class="button button-light" href="/film_detail?film_id=${film['id_film']}">Détail</a>
+    </div>
+% endfor
+</div>

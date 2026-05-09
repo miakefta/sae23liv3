@@ -1,0 +1,55 @@
+<%inherit file="base_admin.html" />
+<% humeurs = context.get("humeurs", []); genres = context.get("genres", []) %>
+
+<section class="panel">
+    <h2>${title}</h2>
+    <form class="form-grid" method="post" action="${action}">
+% if film:
+        <input type="hidden" name="film_id" value="${film.id_film}">
+% endif
+        <div>
+            <label>Titre</label>
+            <input type="text" name="titre" value="${film.titre if film else ''}" required>
+        </div>
+        <div>
+            <label>Année</label>
+            <input type="number" name="annee" value="${film.annee if film else ''}" min="1888" required>
+        </div>
+        <div>
+            <label>Durée (minutes)</label>
+            <input type="number" name="duree" value="${film.duree if film else ''}" min="1" required>
+        </div>
+        <div>
+            <label>Note / 10</label>
+            <input type="number" name="note" value="${film.note if film else ''}" min="0" max="10" step="0.1" required>
+        </div>
+        <div>
+            <label>Affiche</label>
+            <input type="text" name="affiche" value="${film.affiche if film else ''}" placeholder="exemple.jpg" required>
+        </div>
+        <div>
+            <label>Humeur</label>
+            <select name="id_humeur" required>
+% for humeur in humeurs:
+                <option value="${humeur.id_humeur}" ${'selected' if film and film.id_humeur == humeur.id_humeur else ''}>${humeur.nom}</option>
+% endfor
+            </select>
+        </div>
+        <div>
+            <label>Genre</label>
+            <select name="id_genre" required>
+% for genre in genres:
+                <option value="${genre.id_genre}" ${'selected' if film and film.id_genre == genre.id_genre else ''}>${genre.nom}</option>
+% endfor
+            </select>
+        </div>
+        <div class="full">
+            <label>Synopsis</label>
+            <textarea name="synopsis" rows="5" required>${film.synopsis if film else ''}</textarea>
+        </div>
+        <div class="full actions">
+            <button type="submit">Enregistrer</button>
+            <a class="button button-light" href="/admin_films">Annuler</a>
+        </div>
+    </form>
+</section>

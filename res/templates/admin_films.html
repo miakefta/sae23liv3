@@ -1,0 +1,23 @@
+<%inherit file="base_admin.html" />
+<% films = context.get("films", []) %>
+
+<section class="panel center">
+    <h2>Gestion des films</h2>
+    <p class="muted">Liste des films présents dans la base.</p>
+    <a class="button" href="/add_film_form">Ajouter un film</a>
+</section>
+
+<div class="grid">
+% for film in films:
+    <div class="card">
+        <h3>${film["titre"]}</h3>
+        <p>${film["annee"]} • ${film["genre_nom"]} • ${film["duree"]} min</p>
+        <p><span class="badge">${film["humeur_nom"]}</span></p>
+        <p>Note : ${film["note"]}/10</p>
+        <div class="actions">
+            <a class="button button-light" href="/edit_film_form?film_id=${film['id_film']}">Modifier</a>
+            <a class="button button-danger" href="/delete_film?film_id=${film['id_film']}">Supprimer</a>
+        </div>
+    </div>
+% endfor
+</div>
