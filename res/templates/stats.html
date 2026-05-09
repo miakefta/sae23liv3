@@ -1,26 +1,101 @@
 <%inherit file="base_admin.html" />
-<% stats_humeur = context.get("stats_humeur", []); stats_genre = context.get("stats_genre", []); stats_annee = context.get("stats_annee", []) %>
+<%
+stats_humeur = context.get("stats_humeur", [])
+stats_genre = context.get("stats_genre", [])
+stats_annee = context.get("stats_annee", [])
+
+def total_value(row):
+    return row.get("total", 0) or 0
+
+def bar_width(row, maximum):
+    if not maximum:
+        return 0
+    return round((total_value(row) / maximum) * 100, 1)
+
+max_humeur = max([total_value(row) for row in stats_humeur] or [0])
+max_genre = max([total_value(row) for row in stats_genre] or [0])
+max_annee = max([total_value(row) for row in stats_annee] or [0])
+%>
 
 <section class="panel center">
     <h2>Statistiques</h2>
-    <p class="muted">Vue simple des données de l'application.</p>
+    <p class="muted">Vue simple des données de l'application avec graphiques.</p>
 </section>
 
-<div class="grid">
+<div class="stats-grid">
+    <div class="card chart-card">
+        <h3>Graphique : films par humeur</h3>
+% if stats_humeur:
+        <div class="bar-chart" aria-label="Graphique des films par humeur">
+% for row in stats_humeur:
+            <div class="bar-row">
+                <span class="bar-label">${row.get('humeur', 'Sans humeur')}</span>
+                <div class="bar-track">
+                    <span class="bar-fill" style="width: ${bar_width(row, max_humeur)}%"></span>
+                </div>
+                <strong class="bar-value">${total_value(row)}</strong>
+            </div>
+% endfor
+        </div>
+% else:
+        <p class="muted">Aucune donnée disponible pour les humeurs.</p>
+% endif
+    </div>
+
+    <div class="card chart-card">
+        <h3>Graphique : films par genre</h3>
+% if stats_genre:
+        <div class="bar-chart" aria-label="Graphique des films par genre">
+% for row in stats_genre:
+            <div class="bar-row">
+                <span class="bar-label">${row.get('genre', 'Sans genre')}</span>
+                <div class="bar-track">
+                    <span class="bar-fill bar-fill-secondary" style="width: ${bar_width(row, max_genre)}%"></span>
+                </div>
+                <strong class="bar-value">${total_value(row)}</strong>
+            </div>
+% endfor
+        </div>
+% else:
+        <p class="muted">Aucune donnée disponible pour les genres.</p>
+% endif
+    </div>
+
+    <div class="card chart-card full-width">
+        <h3>Graphique : films par année</h3>
+% if stats_annee:
+        <div class="bar-chart" aria-label="Graphique des films par année">
+% for row in stats_annee:
+            <div class="bar-row">
+                <span class="bar-label">${row.get('annee', 'Sans année')}</span>
+                <div class="bar-track">
+                    <span class="bar-fill bar-fill-accent" style="width: ${bar_width(row, max_annee)}%"></span>
+                </div>
+                <strong class="bar-value">${total_value(row)}</strong>
+            </div>
+% endfor
+        </div>
+% else:
+        <p class="muted">Aucune donnée disponible pour les années.</p>
+% endif
+    </div>
+</div>
+
+<div class="grid stats-list">
     <div class="card">
-        <h3>Films par humeur</h3>
+        <h3>Détail par humeur</h3>
 % for row in stats_humeur:
         <p>${row.get('humeur', '')} : <strong>${row.get('total', 0)}</strong></p>
 % endfor
     </div>
     <div class="card">
-        <h3>Films par genre</h3>
+        <h3>Détail par genre</h3>
 % for row in stats_genre:
         <p>${row.get('genre', '')} : <strong>${row.get('total', 0)}</strong></p>
 % endfor
     </div>
     <div class="card">
-        <h3>Films par année</h3>
+        <h3>Détail par année</h3>
 % for row in stats_annee:
         <p>${row.get('annee', '')} : <strong>${row.get('total', 0)}</strong></p>
 % endfor
