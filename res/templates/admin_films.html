@@ -10,6 +10,7 @@
 <div class="grid">
 % for film in films:
     <div class="card">
+        <img class="film-poster" src="/static/affiches/${film['affiche']}" alt="Affiche du film ${film['titre']}">
         <h3>${film["titre"]}</h3>
         <p>${film["annee"]} • ${film["genre_nom"]} • ${film["duree"]} min</p>
         <p><span class="badge">${film["humeur_nom"]}</span></p>

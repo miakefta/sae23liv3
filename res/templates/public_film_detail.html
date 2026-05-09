@@ -1,6 +1,7 @@
 <%inherit file="base_public.html" />
 
 <section class="panel">
+    <img class="film-poster film-poster-detail" src="/static/affiches/${film.affiche}" alt="Affiche du film ${film.titre}">
     <h2>${film.titre}</h2>
     <p class="muted">${film.annee} • ${film.duree} minutes • Note : ${film.note}/10</p>
     <p>${film.synopsis}</p>
